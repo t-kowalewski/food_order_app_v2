@@ -1,5 +1,7 @@
+import Button from '../UI/Button';
+
 const HeaderCartBtn = () => {
-  return <button>Cart (3)</button>;
+  return <Button textOnly>Cart (3)</Button>;
 };
 
 export default HeaderCartBtn;

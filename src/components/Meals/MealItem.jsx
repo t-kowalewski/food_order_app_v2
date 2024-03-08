@@ -1,4 +1,5 @@
 import { formatPrice } from '../../util/formatting';
+import Button from '../UI/Button';
 
 const MealItem = ({ id, name, price, description, image }) => {
   // will take fn from outside which will be managing cart state and accept id of an item
@@ -18,9 +19,10 @@ const MealItem = ({ id, name, price, description, image }) => {
 
         <p className='meal-item-actions'>
           {/* Later change to separate component */}
-          <button className='button' onClick={addToCartHandler}>
+          {/* <button className='button' onClick={addToCartHandler}>
             Add to Cart
-          </button>
+          </button> */}
+          <Button onClick={addToCartHandler}>Add to Cart</Button>
         </p>
       </article>
     </li>
