@@ -1,3 +1,5 @@
+import { formatPrice } from '../../util/formatting';
+
 const MealItem = ({ id, name, price, description, image }) => {
   // will take fn from outside which will be managing cart state and accept id of an item
   const addToCartHandler = () => {
@@ -10,7 +12,7 @@ const MealItem = ({ id, name, price, description, image }) => {
         <img src={`http://localhost:3000/${image}`} alt={name} />
         <div>
           <h3>{name}</h3>
-          <p className='meal-item-price'>${price}</p>
+          <p className='meal-item-price'>{formatPrice(price)}</p>
           <p className='meal-item-description'>{description}</p>
         </div>
 

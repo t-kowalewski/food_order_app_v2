@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { fetchAvailableMeals } from '../../http';
+import { fetchAvailableMeals } from '../../util/http';
 
 import MealItem from './MealItem';
 
@@ -26,7 +26,7 @@ const Meals = () => {
     })();
   }, []);
 
-  console.log(meals);
+  // console.log(meals);
 
   // Error Case
   if (error) {
