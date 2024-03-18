@@ -35,6 +35,33 @@ const cartReducer = (currState, action) => {
       totalAmount: updTotalAmount,
     };
   }
+
+  if (action.type === 'DELETE') {
+    const remItemIndex = currState.items.findIndex(
+      (item) => item.id === action.payload.id
+    );
+
+    const updItem = {
+      ...currState.items[remItemIndex],
+      amount: currState.items[remItemIndex].amount - 1,
+    };
+
+    const updItems = [...currState.items];
+
+    if (updItem.amount < 1) {
+      updItems.splice(remItemIndex, 1);
+    } else {
+      updItems[remItemIndex] = updItem;
+    }
+
+    const updTotalAmount = currState.totalAmount - +action.payload.price;
+
+    return {
+      ...currState,
+      items: updItems,
+      totalAmount: updTotalAmount, // check in no floating numbs
+    };
+  }
 };
 
 const CartProvider = (props) => {
