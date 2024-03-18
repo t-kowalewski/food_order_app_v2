@@ -1,9 +1,15 @@
+import { useContext } from 'react';
+import CartContext from '../../store/cart-context';
+
 import { formatPrice } from '../../util/formatting';
 import Button from '../UI/Button';
 
 const MealItem = ({ id, name, price, description, image }) => {
+  const cartCtx = useContext(CartContext);
+
   // will take fn from outside which will be managing cart state and accept id of an item
   const addToCartHandler = () => {
+    cartCtx.addItem({ id, name, amount: 1, price });
     console.log('added');
   };
 
@@ -18,10 +24,6 @@ const MealItem = ({ id, name, price, description, image }) => {
         </div>
 
         <p className='meal-item-actions'>
-          {/* Later change to separate component */}
-          {/* <button className='button' onClick={addToCartHandler}>
-            Add to Cart
-          </button> */}
           <Button onClick={addToCartHandler}>Add to Cart</Button>
         </p>
       </article>
