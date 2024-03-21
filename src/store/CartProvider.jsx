@@ -22,23 +22,16 @@ const cartReducer = (currState, action) => {
 
     const updTotalAmount = currState.totalAmount + +action.payload.price;
 
-    // logging
-    console.log({
-      ...currState,
-      items: updItems,
-      totalAmount: updTotalAmount,
-    });
-
     return {
       ...currState,
       items: updItems,
-      totalAmount: updTotalAmount,
+      totalAmount: +updTotalAmount.toFixed(2),
     };
   }
 
-  if (action.type === 'DELETE') {
+  if (action.type === 'REMOVE') {
     const remItemIndex = currState.items.findIndex(
-      (item) => item.id === action.payload.id
+      (item) => item.id === action.payload
     );
 
     const updItem = {
@@ -54,12 +47,12 @@ const cartReducer = (currState, action) => {
       updItems[remItemIndex] = updItem;
     }
 
-    const updTotalAmount = currState.totalAmount - +action.payload.price;
+    const updTotalAmount = currState.totalAmount - +updItem.price;
 
     return {
       ...currState,
       items: updItems,
-      totalAmount: updTotalAmount, // check in no floating numbs
+      totalAmount: +updTotalAmount.toFixed(2), // handle floating numbs
     };
   }
 };
@@ -81,6 +74,8 @@ const CartProvider = (props) => {
     addItem: addItemHandler,
     removeItem: removeItemHandler,
   });
+
+  console.log(cartContext);
 
   return (
     <CartContext.Provider value={cartContext}>

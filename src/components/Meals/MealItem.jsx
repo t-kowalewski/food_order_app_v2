@@ -7,10 +7,8 @@ import Button from '../UI/Button';
 const MealItem = ({ id, name, price, description, image }) => {
   const cartCtx = useContext(CartContext);
 
-  // will take fn from outside which will be managing cart state and accept id of an item
   const addToCartHandler = () => {
     cartCtx.addItem({ id, name, amount: 1, price });
-    console.log('added');
   };
 
   return (

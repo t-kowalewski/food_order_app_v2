@@ -1,15 +1,28 @@
-const CartItem = ({ name, price, amount }) => {
+import { useContext } from 'react';
+import { formatPrice } from '../../util/formatting';
+import CartContext from '../../store/cart-context';
+
+const CartItem = ({ id, name, price, amount }) => {
+  const { addItem, removeItem } = useContext(CartContext);
+
+  const addHandler = () => {
+    addItem({ id, name, amount, price });
+  };
+  const removeHandler = () => {
+    removeItem(id);
+  };
+
   return (
     <li className='cart-item'>
       <p>
-        {name} - 1 x ${+price}
+        {name} - {amount} x {formatPrice(price)}
       </p>
 
-      <div className='cart-item-actions'>
-        <button>-</button>
-        <p>{amount}</p>
-        <button>+</button>
-      </div>
+      <p className='cart-item-actions'>
+        <button onClick={removeHandler}>-</button>
+        <span>{amount}</span>
+        <button onClick={addHandler}>+</button>
+      </p>
     </li>
   );
 };
