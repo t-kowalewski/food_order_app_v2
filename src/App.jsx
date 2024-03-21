@@ -1,16 +1,19 @@
 import Header from './components/Layout/Header';
 import Meals from './components/Meals/Meals';
+import OrderStepsProvider from './store/OrderStepsProvider';
 import CartProvider from './store/CartProvider';
+import Cart from './components/Cart/Cart';
 
 function App() {
   return (
-    <CartProvider>
-      <Header />
-      <Meals />
-      {/* <h1>You got this 💪</h1>
-      <p>Stuck? Not sure how to proceed?</p>
-      <p>Don't worry - we've all been there. Let's build it together!</p> */}
-    </CartProvider>
+    <OrderStepsProvider>
+      <CartProvider>
+        <Header />
+        <Meals />
+
+        <Cart />
+      </CartProvider>
+    </OrderStepsProvider>
   );
 }
 
