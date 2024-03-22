@@ -3,6 +3,7 @@ import Meals from './components/Meals/Meals';
 import OrderStepsProvider from './store/OrderStepsProvider';
 import CartProvider from './store/CartProvider';
 import Cart from './components/Cart/Cart';
+import CheckoutForm from './components/Cart/CheckoutForm';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Meals />
 
         <Cart />
+        <CheckoutForm />
       </CartProvider>
     </OrderStepsProvider>
   );

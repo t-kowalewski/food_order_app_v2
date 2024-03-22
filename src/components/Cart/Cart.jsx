@@ -8,7 +8,7 @@ import CartItem from './CartItem';
 
 const Cart = () => {
   const { items, totalAmount } = useContext(CartContext);
-  const { progress, hideCart } = useContext(OrderStepsContext);
+  const { progress, hideCart, showCheckout } = useContext(OrderStepsContext);
 
   return (
     <Modal open={progress === 'cart'} className='cart' escHandler={hideCart}>
@@ -28,7 +28,9 @@ const Cart = () => {
           Close
         </Button>
 
-        {items.length > 0 && <Button onClick={hideCart}>Go To Checkout</Button>}
+        {items.length > 0 && (
+          <Button onClick={showCheckout}>Go To Checkout</Button>
+        )}
       </p>
     </Modal>
   );
