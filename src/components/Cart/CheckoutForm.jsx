@@ -10,14 +10,21 @@ const CheckoutForm = () => {
   const { totalAmount } = useContext(CartContext);
   const { progress, hideCheckout } = useContext(OrderStepsContext);
 
-  const checkoutSubmitHandler = (e) => {
+  const submitHandler = (e) => {
     e.preventDefault();
     console.log('Submitted!');
+
+    // get data from form inputs
+    const fd = new FormData(e.target);
+    const data = Object.fromEntries(fd.entries());
+    console.log(data);
+
+    // send data via http request to backend
   };
 
   return (
     <Modal open={progress === 'checkout'} escHandler={hideCheckout}>
-      <form onSubmit={checkoutSubmitHandler}>
+      <form onSubmit={submitHandler}>
         <h2>Checkout</h2>
         <p>Total amount: {formatPrice(totalAmount)}</p>
 
