@@ -1,49 +1,30 @@
-import { useState, useEffect } from 'react';
-import { fetchAvailableMeals } from '../../util/http';
+import useHttp from '../../hooks/useHttp';
 
 import MealItem from './MealItem';
+import Error from './Error';
+const reqConfig = { method: 'GET' };
 
 const Meals = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [meals, setMeals] = useState([]);
-  const [error, setIsError] = useState(null);
-
-  // Fetching available meals
-  useEffect(() => {
-    (async function () {
-      setIsLoading(true);
-
-      try {
-        const fetchedMeals = await fetchAvailableMeals();
-        setMeals(fetchedMeals);
-      } catch (error) {
-        setIsError({
-          message: error.message || 'Error occured. Please try again later',
-        });
-      }
-
-      setIsLoading(false);
-    })();
-  }, []);
+  const {
+    isLoading,
+    data: meals,
+    error,
+  } = useHttp('http://localhost:3000/meals', reqConfig);
 
   // console.log(meals);
 
   // Error Case
   if (error) {
-    // Move error logic to separate component ?
-    return (
-      <>
-        <h2>An error occured!</h2>
-        <p>{error.message}</p>
-      </>
-    );
+    return <Error title='Failed fetching meals' message={error} />;
   }
 
   return (
     <>
-      {isLoading && <p>Fetching meals...</p>}
+      {isLoading && <p className='center'>Fetching meals...</p>}
 
-      {!isLoading && meals.length === 0 && <p>No meals available</p>}
+      {!isLoading && meals.length === 0 && (
+        <p className='center'>No meals available</p>
+      )}
 
       {!isLoading && meals.length > 0 && (
         <ul id='meals'>

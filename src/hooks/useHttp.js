@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import sendHttpRequest from '../util/http';
 
-const useHttp = (url, confObj = {}) => {
+const useHttp = (url, confObj) => {
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
@@ -26,7 +26,7 @@ const useHttp = (url, confObj = {}) => {
     }
   }, [confObj, sendRequest]);
 
-  return [isLoading, data, error, sendRequest];
+  return { isLoading, data, error, sendRequest };
 };
 
 export default useHttp;
