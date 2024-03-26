@@ -7,6 +7,7 @@ import OrderStepsContext from '../../store/orderSteps-context';
 import Input from '../UI/Input';
 import Button from '../UI/Button';
 import Error from '../Meals/Error';
+import CheckoutSuccess from './CheckoutSuccess';
 
 const reqConfig = {
   method: 'POST',
@@ -21,20 +22,19 @@ const CheckoutForm = () => {
 
   const {
     isLoading: isSending,
-    // data,
+    data,
     error,
     sendRequest,
+    clearData,
   } = useHttp('http://localhost:3000/orders', reqConfig);
 
   // Submit Form Handler
   const submitHandler = async (e) => {
     e.preventDefault();
-    console.log('Submitted!');
 
     // get data from form inputs
     const fd = new FormData(e.target);
     const data = Object.fromEntries(fd.entries());
-    // console.log(data);
 
     // combine data with order info (cart)
     const order = {
@@ -59,10 +59,17 @@ const CheckoutForm = () => {
     </>
   );
 
+  // Loading Case
   if (isSending) {
     actions = <span>Sending order data...</span>;
   }
 
+  // Order Success
+  if (data.message === 'Order created!' && !error) {
+    return <CheckoutSuccess clearData={clearData} />;
+  }
+
+  // Regular Checkout Form
   return (
     <Modal open={progress === 'checkout'} escHandler={hideCheckout}>
       <form onSubmit={submitHandler}>

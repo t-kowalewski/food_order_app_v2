@@ -55,6 +55,14 @@ const cartReducer = (currState, action) => {
       totalAmount: +updTotalAmount.toFixed(2), // handle floating numbs
     };
   }
+
+  if (action.type === 'RESET') {
+    return {
+      ...currState,
+      items: [],
+      totalAmount: 0,
+    };
+  }
 };
 
 const CartProvider = (props) => {
@@ -66,6 +74,10 @@ const CartProvider = (props) => {
     dispatchCartContext({ type: 'REMOVE', payload: id });
   };
 
+  const resetCartHandler = () => {
+    dispatchCartContext({ type: 'RESET' });
+  };
+
   const [cartContext, dispatchCartContext] = useReducer(cartReducer, {
     items: [], // [{id: 'm1', name: 'Burger', amount: 2, price: 19.98}, ...]
     totalAmount: 0, // total amount to pay
@@ -73,9 +85,10 @@ const CartProvider = (props) => {
     // fn to upd context
     addItem: addItemHandler,
     removeItem: removeItemHandler,
+    resetCart: resetCartHandler,
   });
 
-  console.log(cartContext);
+  // console.log(cartContext);
 
   return (
     <CartContext.Provider value={cartContext}>

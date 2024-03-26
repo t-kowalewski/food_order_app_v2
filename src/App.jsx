@@ -12,6 +12,7 @@ function App() {
         <Header />
         <Meals />
 
+        {/* Order Steps - Modals */}
         <Cart />
         <CheckoutForm />
       </CartProvider>

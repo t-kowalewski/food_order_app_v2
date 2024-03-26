@@ -6,9 +6,13 @@ const useHttp = (url, confObj) => {
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
 
+  const clearData = () => {
+    setData([]);
+  };
+
   const sendRequest = useCallback(
     async function (reqBody) {
-      setError(false);
+      setError(false); //////
       setIsLoading(true);
       try {
         // GET DATA
@@ -19,7 +23,8 @@ const useHttp = (url, confObj) => {
         // POST/SEND DATA
         if (reqBody) {
           const body = JSON.stringify({ order: reqBody });
-          await sendHttpRequest(url, { ...confObj, body });
+          const respData = await sendHttpRequest(url, { ...confObj, body });
+          setData(respData);
         }
       } catch (err) {
         setError(err.message || 'Something went wrong');
@@ -35,7 +40,7 @@ const useHttp = (url, confObj) => {
     }
   }, [confObj, sendRequest]);
 
-  return { isLoading, data, error, sendRequest };
+  return { isLoading, data, error, sendRequest, clearData };
 };
 
 export default useHttp;
