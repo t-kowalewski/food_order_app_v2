@@ -1,15 +1,30 @@
 import { useContext } from 'react';
+import useHttp from '../../hooks/useHttp';
 import { formatPrice } from '../../util/formatting';
-import { sendOrder } from '../../util/http';
 import Modal from '../UI/Modal';
 import CartContext from '../../store/cart-context';
 import OrderStepsContext from '../../store/orderSteps-context';
 import Input from '../UI/Input';
 import Button from '../UI/Button';
+import Error from '../Meals/Error';
+
+const reqConfig = {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+};
 
 const CheckoutForm = () => {
   const { items, totalAmount } = useContext(CartContext);
   const { progress, hideCheckout } = useContext(OrderStepsContext);
+
+  const {
+    isLoading: isSending,
+    // data,
+    error,
+    sendRequest,
+  } = useHttp('http://localhost:3000/orders', reqConfig);
 
   // Submit Form Handler
   const submitHandler = async (e) => {
@@ -29,13 +44,24 @@ const CheckoutForm = () => {
     };
 
     // send data via http request to backend
-    try {
-      const resp = await sendOrder(order);
-      console.log(resp);
-    } catch (error) {
-      console.log(error);
-    }
+    sendRequest(order);
   };
+
+  // Form Actions - loading/sending logic
+  let actions = (
+    <>
+      <Button textOnly type='button' onClick={hideCheckout}>
+        Close
+      </Button>
+
+      {/* Handle data submission */}
+      <Button>Submit Order</Button>
+    </>
+  );
+
+  if (isSending) {
+    actions = <span>Sending order data...</span>;
+  }
 
   return (
     <Modal open={progress === 'checkout'} escHandler={hideCheckout}>
@@ -53,15 +79,11 @@ const CheckoutForm = () => {
           <Input id='city' label='City' type='text' />
         </div>
 
-        {/* Form Actions */}
-        <p className='modal-actions'>
-          <Button textOnly type='button' onClick={hideCheckout}>
-            Close
-          </Button>
+        {/* Error Case */}
+        {error && <Error title='Order submission failed' message={error} />}
 
-          {/* Handle data submission */}
-          <Button>Submit Order</Button>
-        </p>
+        {/* Form Actions */}
+        <p className='modal-actions'>{actions}</p>
       </form>
     </Modal>
   );

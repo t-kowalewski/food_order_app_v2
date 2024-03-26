@@ -2,6 +2,7 @@ import useHttp from '../../hooks/useHttp';
 
 import MealItem from './MealItem';
 import Error from './Error';
+
 const reqConfig = { method: 'GET' };
 
 const Meals = () => {
@@ -21,10 +22,6 @@ const Meals = () => {
   return (
     <>
       {isLoading && <p className='center'>Fetching meals...</p>}
-
-      {!isLoading && meals.length === 0 && (
-        <p className='center'>No meals available</p>
-      )}
 
       {!isLoading && meals.length > 0 && (
         <ul id='meals'>

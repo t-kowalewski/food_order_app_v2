@@ -7,11 +7,20 @@ const useHttp = (url, confObj) => {
   const [error, setError] = useState(null);
 
   const sendRequest = useCallback(
-    async function () {
+    async function (reqBody) {
+      setError(false);
       setIsLoading(true);
       try {
-        const respData = await sendHttpRequest(url, confObj);
-        setData(respData);
+        // GET DATA
+        if (!reqBody) {
+          const respData = await sendHttpRequest(url, confObj);
+          setData(respData);
+        }
+        // POST/SEND DATA
+        if (reqBody) {
+          const body = JSON.stringify({ order: reqBody });
+          await sendHttpRequest(url, { ...confObj, body });
+        }
       } catch (err) {
         setError(err.message || 'Something went wrong');
       }
